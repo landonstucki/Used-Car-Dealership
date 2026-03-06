@@ -54,7 +54,7 @@ a {
 
 html,
 body {
-  background: red !important;
+  background: blue !important;
   color: white !important;
 }
 
@@ -114,6 +114,10 @@ p {
 .btn-outline:hover {
   background: #1f3c88;
   color: #ffffff;
+}
+
+.hero-banner-img {
+  width: 100vw;
 }
 
 /*# sourceMappingURL=main.css.map */
