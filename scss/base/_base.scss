@@ -1,0 +1,20 @@
+@use "variables" as *;
+
+html,
+body {
+  background: red !important;
+  color: white !important;
+}
+
+body {
+  font-family: $font-primary;
+  line-height: 1.6;
+}
+
+main {
+  min-height: 70vh;
+}
+
+section {
+  padding: $space-xl 0;
+}

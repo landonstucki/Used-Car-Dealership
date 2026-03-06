@@ -1,0 +1,119 @@
+/* ============================
+   COLORS
+============================ */
+/* Primary brand colors */
+/* Accent color */
+/* Neutral colors */
+/* Backgrounds */
+/* Status colors */
+/* ============================
+   TYPOGRAPHY
+============================ */
+/* Font sizes */
+/* Font weights */
+/* ============================
+   SPACING
+============================ */
+/* ============================
+   BORDERS
+============================ */
+/* ============================
+   SHADOWS
+============================ */
+/* ============================
+   TRANSITIONS
+============================ */
+/* ============================
+   LAYOUT
+============================ */
+/* Breakpoints */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html,
+body {
+  background: red !important;
+  color: white !important;
+}
+
+body {
+  font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  min-height: 70vh;
+}
+
+section {
+  padding: 40px 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Poppins", "Montserrat", sans-serif;
+  font-weight: 700;
+  color: #14295f;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p {
+  color: #444;
+  font-size: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #ff6b00;
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: #ff8126;
+}
+
+.btn-outline {
+  border: 2px solid #1f3c88;
+  color: #1f3c88;
+}
+.btn-outline:hover {
+  background: #1f3c88;
+  color: #ffffff;
+}
+
+/*# sourceMappingURL=main.css.map */

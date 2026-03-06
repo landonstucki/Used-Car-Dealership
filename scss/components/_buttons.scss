@@ -1,0 +1,28 @@
+@use "../base/variables" as *;
+.btn {
+  display: inline-block;
+  padding: $space-sm $space-lg;
+  border-radius: $radius-md;
+  font-weight: $weight-medium;
+  transition: $transition-normal;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: $accent;
+  color: $white;
+
+  &:hover {
+    background: $accent-hover;
+  }
+}
+
+.btn-outline {
+  border: 2px solid $primary;
+  color: $primary;
+
+  &:hover {
+    background: $primary;
+    color: $white;
+  }
+}

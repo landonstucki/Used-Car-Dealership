@@ -1,8 +1,10 @@
 {
-    "ext": "js css ejs env",
-    "exec": "node --env-file=.env server.js",
-    "ignore": [
-        ".git",
-        "node_modules"
-    ]
+  "watch": ["scss", "views", "server.js", ".env"],
+  "ext": "js scss ejs env",
+  "ignore": [
+    ".git",
+    "node_modules",
+    "public/css"
+  ],
+  "exec": "pnpm run build && node --env-file=.env server.js"
 }
