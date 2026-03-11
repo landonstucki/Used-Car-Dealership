@@ -54,7 +54,7 @@ a {
 
 html,
 body {
-  background: blue !important;
+  background: grey;
   color: white !important;
 }
 
@@ -88,6 +88,33 @@ h2 {
 p {
   color: #444;
   font-size: 1rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
+nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+nav li {
+  padding: 10px;
+  display: flex;
+}
+nav a {
+  border: 2px solid gold;
+  border-radius: 50px;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+nav a:hover {
+  color: black;
+  background-color: white;
+  transform: translateY(-2px);
 }
 
 .btn {

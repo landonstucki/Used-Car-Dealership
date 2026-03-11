@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3000;
 // Setup Express Server
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
+
 // Live Reload Server
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch([
@@ -32,15 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Route Declaration
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/home.html'));
+    res.render('home', { title: "Home"});
 });
 
 app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/about.html'));
+    res.render('about', { title: "About"});
 });
 
-app.get('/products', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/products.html'));
+app.get('/vehicles', (req, res) => {
+    res.render('vehicles', { title: "Vehicles"});
 });
 
 // Server Start and Listen
