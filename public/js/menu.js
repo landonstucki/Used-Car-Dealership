@@ -1,10 +1,11 @@
 export function initMenu() {
-  const menuBtn = document.querySelector(".menu-btn");
-  const nav = document.querySelector("nav");
+  const menuBtn = document.querySelector(".menu-button");
+  const menu = document.querySelector(".menu");
 
-  if (!menuBtn || !nav) return;
+  if (!menuBtn || !menu) return;
 
   menuBtn.addEventListener("click", () => {
-    nav.classList.toggle("open");
+    menu.classList.toggle("closed");
+    menu.classList.toggle("darker");
   });
 }

@@ -54,6 +54,7 @@ a {
 
 html,
 body {
+  text-align: center;
   background: grey;
   color: white !important;
 }
@@ -71,6 +72,9 @@ section {
   padding: 40px 0;
 }
 
+/*
+@media{}
+*/
 h1, h2, h3, h4 {
   font-family: "Poppins", "Montserrat", sans-serif;
   font-weight: 700;
@@ -91,31 +95,54 @@ p {
 }
 
 nav {
-  position: absolute;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.676);
+  border-radius: 20px;
+  position: fixed;
   display: flex;
   justify-content: center;
+  justify-self: left;
+  flex-direction: column;
+  align-items: center;
 }
 nav ul {
+  align-items: center;
   display: flex;
-  gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
+  flex-direction: column;
 }
 nav li {
-  padding: 10px;
+  padding: 5px;
   display: flex;
 }
 nav a {
-  border: 2px solid black;
+  cursor: pointer;
   border-radius: 50px;
-  color: black;
+  font-weight: 800;
+  color: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
 }
 nav a:hover {
   color: white;
   background-color: grey;
   transform: translateY(-2px);
+}
+
+.menu {
+  overflow: hidden;
+  max-height: 500px;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.closed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
 }
 
 .btn {
@@ -147,7 +174,7 @@ nav a:hover {
 .hero-banner-img {
   grid-template-columns: 1;
   grid-template-rows: 1;
-  width: 100vw;
+  width: 100%;
 }
 
 /*# sourceMappingURL=main.css.map */
