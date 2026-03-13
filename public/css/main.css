@@ -91,6 +91,7 @@ p {
 }
 
 nav {
+  position: absolute;
   display: flex;
   justify-content: center;
 }
@@ -106,14 +107,14 @@ nav li {
   display: flex;
 }
 nav a {
-  border: 2px solid gold;
+  border: 2px solid black;
   border-radius: 50px;
-  color: white;
+  color: black;
   padding: 0.5rem 1rem;
 }
 nav a:hover {
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: grey;
   transform: translateY(-2px);
 }
 
@@ -144,6 +145,8 @@ nav a:hover {
 }
 
 .hero-banner-img {
+  grid-template-columns: 1;
+  grid-template-rows: 1;
   width: 100vw;
 }
 
