@@ -46,6 +46,10 @@ app.get('/vehicles', (req, res) => {
     res.render('vehicles', { title: "Vehicles"});
 });
 
+app.get('/contact', (req, res) => {
+    res.render('contact', { title: "Contact"});
+});
+
 // Server Start and Listen
 app.listen(PORT, () => {
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
