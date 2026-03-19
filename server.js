@@ -1,52 +1,54 @@
-// Imports
 import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
+import routes from './src/controllers/routes.js';
+import { addLocalVariables } from './src/middleware/global.js';
 
-// Variable Declaration
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-// Setup Express Server
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(addLocalVariables);
 
-/**
- * Global template variables middleware
- *
- * Makes common variables available to all EJS templates without having to pass
- * them individually from each route handler
- */
+app.use('/', routes);
+
 app.use((req, res, next) => {
-  res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
-  next();
+  const err = new Error('Page Not Found');
+  err.status = 404;
+  next(err);
 });
 
-// Routes
-app.get('/', (req, res) => {
-  res.render('home', { title: 'Home' });
+app.use((err, req, res, next) => {
+  if (res.headersSent || res.finished) {
+    return next(err);
+  }
+
+  const status = err.status || 500;
+  const template = status === 404 ? '404' : '500';
+
+  const context = {
+    title: status === 404 ? 'Page Not Found' : 'Server Error',
+    error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
+    stack: NODE_ENV === 'production' ? null : err.stack,
+    NODE_ENV
+  };
+
+  try {
+    res.status(status).render(`errors/${template}`, context);
+  } catch {
+    if (!res.headersSent) {
+      res.status(status).send(`<h1>Error ${status}</h1><p>An error occurred.</p>`);
+    }
+  }
 });
 
-app.get('/about', (req, res) => {
-  res.render('about', { title: 'About' });
-});
-
-app.get('/vehicles', (req, res) => {
-  res.render('vehicles', { title: 'Vehicles' });
-});
-
-app.get('/contact', (req, res) => {
-  res.render('contact', { title: 'Contact' });
-});
-
-// When in development mode, start a WebSocket server for live reloading
 if (NODE_ENV.includes('dev')) {
   const ws = await import('ws');
 
@@ -66,7 +68,6 @@ if (NODE_ENV.includes('dev')) {
   }
 }
 
-// Server Start and Listen
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
