@@ -14,9 +14,19 @@
     <img class="hero-banner-img" src="/images/hero-banner-car.png" alt="car hero banner" />
   </div>
 
-  <h1>Vehicles</h1>
-  <p>[Add some content specific to this page]</p>
+  <% vehicles.forEach(vehicle => { %>
+  <div class="vehicle-card">
+    <h2>
+      <a href="/vehicles/<%= vehicle.id %>">
+        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+      </a>
+    </h2>
+    <p>$<%= vehicle.price %></p>
+    <p><%= vehicle.category %></p>
+  </div>
+<% }) %>
 
   <%- include('../partials/footer') %>
 </body>
 </html>
+
