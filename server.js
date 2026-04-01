@@ -4,6 +4,10 @@ import path from 'path';
 import express from 'express';
 import routes from './src/controllers/routes.js';
 import { addLocalVariables } from './src/middleware/global.js';
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
+import pool from './src/config/db.js';
+import { setAuthLocals } from './src/middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,14 +15,31 @@ const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = express();
+const pgSession = connectPgSimple(session);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
+app.use(
+  session({
+    store: new pgSession({
+      pool,
+      tableName: 'user_sessions'
+    }),
+    secret: process.env.SESSION_SECRET || 'super-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, //process.env.NODE_ENV === 'production'  (uncomment for render production), removal false).
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24
+    }
+  })
+);
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(addLocalVariables);
-
-import pool from './src/config/db.js';
 
 app.get('/db-test', async (req, res) => {
   try {
@@ -31,6 +52,13 @@ app.get('/db-test', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+app.use(setAuthLocals);
+app.use((req, res, next) => {
+  res.locals.NODE_ENV = NODE_ENV;
+  next();
+});
+
 
 app.use('/', routes);
 
