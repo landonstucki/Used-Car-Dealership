@@ -95,7 +95,6 @@ p {
 }
 
 nav {
-  margin: 5px;
   background-color: rgba(0, 0, 0, 0.676);
   border-radius: 20px;
   position: fixed;
@@ -147,9 +146,9 @@ nav a:hover {
 
 @media (min-width: 768px) {
   nav {
-    position: absolute;
+    position: relative;
     height: 7vh;
-    width: 50vw;
+    width: 75vw;
     justify-content: center;
     justify-self: center;
     justify-items: center;
