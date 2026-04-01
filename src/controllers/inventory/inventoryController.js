@@ -1,29 +1,40 @@
 import { getSortedVehicles, getVehicleById } from '../../models/inventory/inventoryModel.js';
 
-const inventoryPage = (req, res) => {
-  const sort = req.query.sort;
-  const vehicles = getSortedVehicles(sort);
+const inventoryPage = async (req, res, next) => {
+  try {
+    const sort = req.query.sort;
+    const vehicles = await getSortedVehicles(sort);
 
-  res.render('inventory/index', {
-    title: 'Vehicles',
-    vehicles
-  });
+    console.log('vehicles:', vehicles);
+
+    res.render('inventory/index', {
+      title: 'Vehicles',
+      vehicles
+    });
+  } catch (error) {
+    console.error('inventoryPage error:', error);
+    next(error);
+  }
 };
 
-const vehicleDetailPage = (req, res, next) => {
-  const vehicleId = req.params.vehicleId;
-  const vehicle = getVehicleById(vehicleId);
+const vehicleDetailPage = async (req, res, next) => {
+  try {
+    const slug = req.params.slug;
+    const vehicle = await getVehicleById(slug);
 
-  if (!vehicle) {
-    const err = new Error(`Vehicle ${vehicleId} not found`);
-    err.status = 404;
-    return next(err);
+    if (!vehicle) {
+      const err = new Error('Vehicle not found');
+      err.status = 404;
+      return next(err);
+    }
+
+    res.render('inventory/details', {
+      title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
+      vehicle
+    });
+  } catch (error) {
+    next(error);
   }
-
-  res.render('inventory/details', {
-    title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
-    vehicle
-  });
 };
 
 export { inventoryPage, vehicleDetailPage };

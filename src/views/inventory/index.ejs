@@ -10,23 +10,57 @@
 
   <%- include('../partials/header') %>
 
-  <div class="hero-banner">
-    <img class="hero-banner-img" src="/images/hero-banner-car.png" alt="car hero banner" />
-  </div>
+  <main class="inventory-page">
+    <section class="inventory-section">
+      <div class="inventory-section__header">
+        <h1 class="inventory-section__title">Available Vehicles</h1>
+        <p class="inventory-section__count">
+          <%= vehicles.length %> vehicle<%= vehicles.length === 1 ? '' : 's' %>
+        </p>
+      </div>
 
-  <% vehicles.forEach(vehicle => { %>
-  <div class="vehicle-card">
-    <h2>
-      <a href="/vehicles/<%= vehicle.id %>">
-        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-      </a>
-    </h2>
-    <p>$<%= vehicle.price %></p>
-    <p><%= vehicle.category %></p>
-  </div>
-<% }) %>
+      <% if (vehicles && vehicles.length > 0) { %>
+        <section class="inventory-grid">
+          <% vehicles.forEach(vehicle => { %>
+            <article class="vehicle-card">
+              <a href="/vehicles/<%= vehicle.id %>" class="vehicle-card__image-link">
+                <img
+                  src="<%= vehicle.image_path || '/images/vehicles/default-car.jpg' %>"
+                  alt="<%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>"
+                  class="vehicle-card__image"
+                />
+              </a>
+
+              <div class="vehicle-card__content">
+                <p class="vehicle-card__category"><%= vehicle.category %></p>
+
+                <h2 class="vehicle-card__title">
+                  <a href="/vehicles/<%= vehicle.id %>">
+                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                  </a>
+                </h2>
+
+                <p class="vehicle-card__price">
+                  $<%= Number(vehicle.price).toLocaleString() %>
+                </p>
+
+                <a href="/vehicles/<%= vehicle.id %>" class="vehicle-card__button">
+                  View Details
+                </a>
+              </div>
+            </article>
+          <% }) %>
+        </section>
+      <% } else { %>
+        <section class="inventory-empty">
+          <h2>No vehicles available</h2>
+          <p>Please check back later for updated inventory.</p>
+        </section>
+      <% } %>
+    </section>
+  </main>
 
   <%- include('../partials/footer') %>
+
 </body>
 </html>
-

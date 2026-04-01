@@ -12,6 +12,6 @@ router.get('/about', aboutPage);
 router.get('/contact', contactPage);
 
 router.get('/vehicles', inventoryPage);
-router.get('/vehicles/:vehicleId', vehicleDetailPage);
+router.get('/vehicles/:slug', vehicleDetailPage);
 
 export default router;

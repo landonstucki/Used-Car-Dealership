@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
@@ -16,6 +17,20 @@ app.set('views', path.join(__dirname, 'src/views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(addLocalVariables);
+
+import pool from './src/config/db.js';
+
+app.get('/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('DB TEST MESSAGE:', error.message);
+    console.error('DB TEST CODE:', error.code);
+    console.error('DB TEST FULL ERROR:', error);
+    res.status(500).send(error.message);
+  }
+});
 
 app.use('/', routes);
 
