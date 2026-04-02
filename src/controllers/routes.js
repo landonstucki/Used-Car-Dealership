@@ -7,6 +7,7 @@ import {
 import accountRoutes from './account/accountRoutes.js';
 import adminRoutes from './admin/adminRoutes.js';
 import serviceRequestRoutes from './service/serviceRequestRoutes.js';
+import ownerRoutes from './owner/ownerRoutes.js';
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.get('/vehicles/:slug', vehicleDetailPage);
 
 router.use(accountRoutes);
 router.use('/admin', adminRoutes);
+router.use('/admin', ownerRoutes);
 router.use(serviceRequestRoutes);
 
 export default router;
