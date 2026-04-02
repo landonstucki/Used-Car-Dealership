@@ -2,35 +2,31 @@ import 'dotenv/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
-import routes from './src/controllers/routes.js';
-import { addLocalVariables } from './src/middleware/global.js';
 import session from 'express-session';
-import connectPgSimple from 'connect-pg-simple';
+
+import routes from './src/controllers/routes.js';
 import pool from './src/config/db.js';
+import { addLocalVariables } from './src/middleware/global.js';
 import { setAuthLocals } from './src/middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = express();
-const pgSession = connectPgSimple(session);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
 app.use(
   session({
-    store: new pgSession({
-      pool,
-      tableName: 'user_sessions'
-    }),
     secret: process.env.SESSION_SECRET || 'super-secret-key',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, //process.env.NODE_ENV === 'production'  (uncomment for render production), removal false).
+      secure: false,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24
     }
@@ -39,8 +35,17 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(addLocalVariables);
 
+app.use(addLocalVariables);
+app.use(setAuthLocals);
+
+app.use((req, res, next) => {
+  res.locals.NODE_ENV = NODE_ENV;
+  next();
+});
+
+// Optional DB test route
+/*
 app.get('/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
@@ -52,13 +57,7 @@ app.get('/db-test', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-app.use(setAuthLocals);
-app.use((req, res, next) => {
-  res.locals.NODE_ENV = NODE_ENV;
-  next();
-});
-
+*/
 
 app.use('/', routes);
 
@@ -96,7 +95,7 @@ if (NODE_ENV.includes('dev')) {
   const ws = await import('ws');
 
   try {
-    const wsPort = parseInt(PORT) + 1;
+    const wsPort = parseInt(PORT, 10) + 1;
     const wsServer = new ws.WebSocketServer({ port: wsPort });
 
     wsServer.on('listening', () => {
@@ -113,4 +112,10 @@ if (NODE_ENV.includes('dev')) {
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
+});
+
+process.on('SIGINT', async () => {
+  console.log('Shutting down server...');
+  await pool.end();
+  process.exit(0);
 });

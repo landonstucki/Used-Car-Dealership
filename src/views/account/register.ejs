@@ -5,7 +5,12 @@
   <section class="auth-section">
     <h1>Register Account</h1>
 
-    <form method="POST" action="/login" class="vehicle-form">
+    <form method="POST" action="/register" class="vehicle-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required />
@@ -16,7 +21,7 @@
         <input type="password" id="password" name="password" required />
       </div>
 
-      <button type="submit">Login</button>
+      <button type="submit">Register</button>
     </form>
   </section>
 </main>

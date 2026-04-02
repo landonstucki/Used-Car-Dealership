@@ -6,7 +6,10 @@ const { Pool } = pg;
 const pool = new Pool({
   connectionString: process.env.DB_URL,
   ssl: { rejectUnauthorized: false },
-  max: 2, // leave 1 slot for pgAdmin login
+  max: 1, // leave 1 slot for pgAdmin login
+  idleTimeoutMillis: 5000,
+  connectionTimeoutMillis: 10000
+  
 });
 
 export default pool;
