@@ -1,0 +1,37 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-form-page">
+  <section class="admin-form-section">
+    <h1>New Service Request</h1>
+    <p>Submit a request for service on one of our vehicles.</p>
+
+    <form method="POST" action="/account/service-requests/new" class="vehicle-form">
+      <div class="form-group">
+        <label for="vehicle_id">Vehicle</label>
+        <select id="vehicle_id" name="vehicle_id" required>
+          <option value="">Select a vehicle</option>
+          <% vehicles.forEach(vehicle => { %>
+            <option value="<%= vehicle.vehicle_id %>">
+              <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="service_type">Service Type</label>
+        <input type="text" id="service_type" name="service_type" placeholder="Oil Change, Inspection, Tire Rotation" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
+      </div>
+
+      <button type="submit">Submit Request</button>
+    </form>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

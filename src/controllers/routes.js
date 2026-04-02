@@ -4,9 +4,9 @@ import {
   inventoryPage,
   vehicleDetailPage
 } from './inventory/inventoryController.js';
-
 import accountRoutes from './account/accountRoutes.js';
 import adminRoutes from './admin/adminRoutes.js';
+import serviceRequestRoutes from './service/serviceRequestRoutes.js';
 
 const router = Router();
 
@@ -19,5 +19,6 @@ router.get('/vehicles/:slug', vehicleDetailPage);
 
 router.use(accountRoutes);
 router.use('/admin', adminRoutes);
+router.use(serviceRequestRoutes);
 
 export default router;

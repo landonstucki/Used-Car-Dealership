@@ -23,6 +23,7 @@ const dashboardPage = (req, res) => {
   res.render('account/dashboard', {
     title: 'Account Dashboard'
   });
+  //res.send("Dashboard route works!");
 };
 
 const registerAction = async (req, res, next) => {
@@ -34,21 +35,15 @@ const registerAction = async (req, res, next) => {
   }
 
   try {
-    console.log('REGISTER ACTION HIT');
-    console.log('BODY:', req.body);
-
     const { name, email, password } = req.body;
 
     const existingUser = await getUserByEmail(email);
-    console.log('EXISTING USER:', existingUser);
 
     if (existingUser) {
-      console.log('User already exists');
       return res.redirect('/register');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log('HASH CREATED');
 
     const user = await createUser({
       name,
@@ -57,8 +52,6 @@ const registerAction = async (req, res, next) => {
       role: 'user'
     });
 
-    console.log('USER CREATED:', user);
-
     req.session.user = {
       user_id: user.user_id,
       name: user.name,
@@ -66,9 +59,8 @@ const registerAction = async (req, res, next) => {
       role: user.role
     };
 
-    res.send('Registration worked');
+    res.redirect('/account/dashboard');
   } catch (error) {
-    console.error('REGISTER ERROR:', error);
     next(error);
   }
 };

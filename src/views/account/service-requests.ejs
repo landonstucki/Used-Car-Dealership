@@ -1,0 +1,37 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="account-dashboard">
+  <section class="account-dashboard__header">
+    <h1>My Service Requests</h1>
+    <p>Track your submitted service requests and current statuses.</p>
+  </section>
+
+  <section class="account-dashboard__actions">
+    <a href="/account/service-requests/new" class="dashboard-card">
+      <h2>New Request</h2>
+      <p>Submit a new service request.</p>
+    </a>
+  </section>
+
+  <section class="requests-list">
+    <% if (requests && requests.length > 0) { %>
+      <% requests.forEach(request => { %>
+        <article class="dashboard-card">
+          <h2><%= request.year %> <%= request.make %> <%= request.model %></h2>
+          <p><strong>Service:</strong> <%= request.service_type %></p>
+          <p><strong>Status:</strong> <%= request.status %></p>
+          <p><strong>Description:</strong> <%= request.description %></p>
+          <p><strong>Admin Notes:</strong> <%= request.admin_notes || 'No notes yet.' %></p>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <article class="dashboard-card">
+        <h2>No service requests yet</h2>
+        <p>You have not submitted any service requests.</p>
+      </article>
+    <% } %>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

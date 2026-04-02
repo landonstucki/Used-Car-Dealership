@@ -1,0 +1,50 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-dashboard">
+  <section class="admin-dashboard__header">
+    <h1>Manage Service Requests</h1>
+    <p>Review, update, and complete customer service requests.</p>
+  </section>
+
+  <section class="requests-list">
+    <% if (requests && requests.length > 0) { %>
+      <% requests.forEach(request => { %>
+        <article class="dashboard-card">
+          <h2><%= request.year %> <%= request.make %> <%= request.model %></h2>
+          <p><strong>User:</strong> <%= request.user_name %> (<%= request.email %>)</p>
+          <p><strong>Service:</strong> <%= request.service_type %></p>
+          <p><strong>Description:</strong> <%= request.description %></p>
+          <p><strong>Current Status:</strong> <%= request.status %></p>
+
+          <form method="POST" action="/admin/service-requests/update" class="vehicle-form">
+            <input type="hidden" name="request_id" value="<%= request.request_id %>" />
+
+            <div class="form-group">
+              <label for="status-<%= request.request_id %>">Status</label>
+              <select id="status-<%= request.request_id %>" name="status" required>
+                <option value="Submitted" <%= request.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
+                <option value="In Progress" <%= request.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                <option value="Completed" <%= request.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="admin_notes-<%= request.request_id %>">Admin Notes</label>
+              <textarea id="admin_notes-<%= request.request_id %>" name="admin_notes" rows="4"><%= request.admin_notes || '' %></textarea>
+            </div>
+
+            <button type="submit">Update Request</button>
+          </form>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <article class="dashboard-card">
+        <h2>No service requests found</h2>
+        <p>There are currently no requests to manage.</p>
+      </article>
+    <% } %>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

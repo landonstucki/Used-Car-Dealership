@@ -1,0 +1,33 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-dashboard">
+  <section class="admin-dashboard__header">
+    <h1>Manage Vehicles</h1>
+    <p>Add, review, and delete vehicles.</p>
+  </section>
+
+  <section class="requests-list">
+    <% if (vehicles && vehicles.length > 0) { %>
+      <% vehicles.forEach(vehicle => { %>
+        <article class="dashboard-card">
+          <h2><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h2>
+          <p><strong>Slug:</strong> <%= vehicle.slug %></p>
+          <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+          <p><strong>Category:</strong> <%= vehicle.category_name %></p>
+
+          <form method="POST" action="/admin/vehicles/delete" onsubmit="return confirm('Delete this vehicle?');">
+            <input type="hidden" name="vehicle_id" value="<%= vehicle.vehicle_id %>" />
+            <button type="submit">Delete Vehicle</button>
+          </form>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <article class="dashboard-card">
+        <h2>No vehicles found</h2>
+      </article>
+    <% } %>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

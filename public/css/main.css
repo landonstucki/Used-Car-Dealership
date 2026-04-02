@@ -75,6 +75,22 @@ section {
 /*
 @media{}
 */
+.requests-list {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font: inherit;
+}
+
 h1, h2, h3, h4 {
   font-family: "Poppins", "Montserrat", sans-serif;
   font-weight: 700;

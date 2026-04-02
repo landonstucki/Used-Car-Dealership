@@ -84,4 +84,15 @@ async function addVehicle({
   return result.rows[0];
 }
 
-export { getSortedVehicles, getVehicleById, addVehicle};
+async function deleteVehicle(vehicle_id) {
+  const sql = `
+    DELETE FROM vehicles
+    WHERE vehicle_id = $1
+    RETURNING *;
+  `;
+
+  const result = await pool.query(sql, [vehicle_id]);
+  return result.rows[0] || null;
+}
+
+export { getSortedVehicles, getVehicleById, addVehicle, deleteVehicle };

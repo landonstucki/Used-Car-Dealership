@@ -1,27 +1,39 @@
-<%- include('partials/head') %>
+<%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<main class="auth-page">
-  <section class="auth-section">
-    <h1>Register</h1>
+<main class="account-dashboard">
+  <section class="account-dashboard__header">
+    <h1>Account Dashboard</h1>
 
-    <form method="POST" action="/register" class="vehicle-form">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required />
-      </div>
+    <p>
+      Welcome,
+      <strong><%= currentUser ? currentUser.name : 'User' %></strong>
+    </p>
+  </section>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
-      </div>
+  <section class="account-dashboard__info">
+    <div class="dashboard-card">
+      <h2>Your Info</h2>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
-      </div>
+      <p><strong>Name:</strong> <%= currentUser ? currentUser.name : 'N/A' %></p>
+      <p><strong>Email:</strong> <%= currentUser ? currentUser.email : 'N/A' %></p>
+      <p><strong>Role:</strong> <%= currentUser ? currentUser.role : 'N/A' %></p>
+    </div>
+  </section>
 
-      <button type="submit">Register</button>
+  <section class="account-dashboard__actions">
+    <a href="/vehicles" class="dashboard-card">
+      <h2>Browse Vehicles</h2>
+      <p>View available inventory.</p>
+    </a>
+
+      <a href="/account/service-requests" class="dashboard-card">
+        <h2>My Service Requests</h2>
+        <p>View and track your service requests.</p>
+      </a>
+
+    <form method="POST" action="/logout">
+      <button type="submit">Logout</button>
     </form>
   </section>
 </main>

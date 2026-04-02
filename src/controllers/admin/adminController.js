@@ -1,4 +1,4 @@
-import { addVehicle } from '../../models/inventory/inventoryModel.js';
+import { addVehicle, deleteVehicle, getSortedVehicles } from '../../models/inventory/inventoryModel.js';
 
 const adminDashboardPage = (req, res) => {
   res.render('admin/dashboard', {
@@ -48,4 +48,37 @@ const addVehicleAction = async (req, res, next) => {
   }
 };
 
-export { adminDashboardPage, addVehiclePage, addVehicleAction };
+const manageVehiclesPage = async (req, res, next) => {
+  try {
+    const vehicles = await getSortedVehicles();
+
+    res.render('admin/manage-vehicles', {
+      title: 'Manage Vehicles',
+      vehicles
+    });
+  } catch (error) {
+    console.error('manageVehiclesPage error:', error);
+    next(error);
+  }
+};
+
+const deleteVehicleAction = async (req, res, next) => {
+  try {
+    const { vehicle_id } = req.body;
+
+    await deleteVehicle(vehicle_id);
+
+    res.redirect('/admin/vehicles/manage');
+  } catch (error) {
+    console.error('deleteVehicleAction error:', error);
+    next(error);
+  }
+};
+
+export {
+  adminDashboardPage,
+  addVehiclePage,
+  addVehicleAction,
+  manageVehiclesPage,
+  deleteVehicleAction
+};
