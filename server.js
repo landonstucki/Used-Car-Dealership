@@ -12,10 +12,13 @@ import { setAuthLocals } from './src/middleware/auth.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT, 10) || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = express();
+
+let wsServer;
+let httpServer;
 
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
@@ -94,11 +97,11 @@ app.use((err, req, res, next) => {
 });
 
 if (NODE_ENV.includes('dev')) {
-  const ws = await import('ws');
-
   try {
-    const wsPort = parseInt(PORT, 10) + 1;
-    const wsServer = new ws.WebSocketServer({ port: wsPort });
+    const ws = await import('ws');
+    const wsPort = PORT + 1;
+
+    wsServer = new ws.WebSocketServer({ port: wsPort });
 
     wsServer.on('listening', () => {
       console.log(`WebSocket server is running on port ${wsPort}`);
@@ -112,12 +115,42 @@ if (NODE_ENV.includes('dev')) {
   }
 }
 
-app.listen(PORT, () => {
+httpServer = app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
 
-process.on('SIGINT', async () => {
+let isShuttingDown = false;
+
+const shutdown = async () => {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+
   console.log('Shutting down server...');
-  await pool.end();
-  process.exit(0);
-});
+
+  try {
+    if (wsServer) {
+      await new Promise((resolve) => wsServer.close(resolve));
+      console.log('WebSocket server closed.');
+    }
+
+    if (httpServer) {
+      await new Promise((resolve, reject) => {
+        httpServer.close((error) => {
+          if (error) return reject(error);
+          resolve();
+        });
+      });
+      console.log('HTTP server closed.');
+    }
+
+    await pool.end();
+    console.log('Database pool closed.');
+  } catch (error) {
+    console.error('Error during shutdown:', error);
+  } finally {
+    process.exit(0);
+  }
+};
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
