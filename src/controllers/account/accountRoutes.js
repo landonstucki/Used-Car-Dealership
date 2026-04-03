@@ -48,5 +48,4 @@ router.get('/account/dashboard', requireAuth, dashboardPage);
 router.post('/register', registerValidation, registerAction);
 router.post('/login', loginValidation, loginAction);
 router.post('/logout', logoutAction);
-
 export default router;

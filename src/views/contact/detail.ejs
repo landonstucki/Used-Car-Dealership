@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main>
+  <h1><%= title %></h1>
+
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h2><%= message.subject %></h2>
+  <p><strong>From:</strong> <%= message.name %></p>
+  <p><strong>Email:</strong> <%= message.email %></p>
+  <p><strong>Status:</strong> <%= message.status %></p>
+  <p><strong>Sent:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
+
+  <p><strong>Message:</strong></p>
+  <p><%= message.message %></p>
+
+  <hr>
+
+  <form action="/admin/contact/<%= message.message_id %>/respond" method="post">
+    <div>
+      <label for="response">Response</label>
+      <textarea id="response" name="response" rows="6"><%= message.response || '' %></textarea>
+    </div>
+
+    <div>
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="open" <%= message.status === 'open' ? 'selected' : '' %>>Open</option>
+        <option value="closed" <%= message.status === 'closed' ? 'selected' : '' %>>Closed</option>
+      </select>
+    </div>
+
+    <button type="submit">Save Response</button>
+  </form>
+</main>
+
+<%- include('../partials/footer') %>

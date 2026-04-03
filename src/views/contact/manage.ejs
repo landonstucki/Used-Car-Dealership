@@ -1,0 +1,41 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main>
+  <h1><%= title %></h1>
+
+  <% if (!messages || messages.length === 0) { %>
+    <p>No messages found.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>View</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% messages.forEach(message => { %>
+          <tr>
+            <td><%= message.message_id %></td>
+            <td><%= message.name %></td>
+            <td><%= message.email %></td>
+            <td><%= message.subject %></td>
+            <td><%= message.status %></td>
+            <td><%= new Date(message.created_at).toLocaleString() %></td>
+            <td>
+              <a href="/admin/contact/<%= message.message_id %>">View</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

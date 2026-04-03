@@ -1,0 +1,23 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main>
+  <h1><%= title %></h1>
+
+  <% if (!messages || messages.length === 0) { %>
+    <p>You have not submitted any messages yet.</p>
+  <% } else { %>
+    <% messages.forEach(message => { %>
+      <article>
+        <h2><%= message.subject %></h2>
+        <p><strong>Status:</strong> <%= message.status %></p>
+        <p><strong>Sent:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
+        <p><strong>Your message:</strong> <%= message.message %></p>
+        <p><strong>Response:</strong> <%= message.response || 'No response yet.' %></p>
+      </article>
+      <hr>
+    <% }) %>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

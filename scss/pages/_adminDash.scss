@@ -8,6 +8,21 @@
   margin-bottom: 2rem;
 }
 
+.admin-card {
+  display: block;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-4px);
+}
+
 .admin-dashboard__header h1 {
   margin-bottom: 0.5rem;
 }

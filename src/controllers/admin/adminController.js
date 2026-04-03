@@ -1,4 +1,9 @@
 import { addVehicle, deleteVehicle, getSortedVehicles } from '../../models/inventory/inventoryModel.js';
+import {
+  getAllContactMessages,
+  getContactMessageById,
+  respondToContactMessage
+} from '../../models/contact/contactModel.js';
 
 const adminDashboardPage = (req, res) => {
   res.render('admin/dashboard', {
@@ -75,10 +80,86 @@ const deleteVehicleAction = async (req, res, next) => {
   }
 };
 
+const manageContactMessagesPage = async (req, res, next) => {
+  try {
+    const messages = await getAllContactMessages();
+
+    res.render('contact/manage', {
+      title: 'Manage Contact Messages',
+      messages
+    });
+  } catch (error) {
+    console.error('manageContactMessagesPage error:', error);
+    next(error);
+  }
+};
+
+const contactMessageDetailPage = async (req, res, next) => {
+  try {
+    const { messageId } = req.params;
+    const message = await getContactMessageById(messageId);
+
+    if (!message) {
+      return res.status(404).render('errors/404', {
+        title: 'Message Not Found'
+      });
+    }
+
+    res.render('contact/detail', {
+      title: 'Message Detail',
+      message,
+      errors: null
+    });
+  } catch (error) {
+    console.error('contactMessageDetailPage error:', error);
+    next(error);
+  }
+};
+
+const respondToMessageAction = async (req, res, next) => {
+  try {
+    const { messageId } = req.params;
+    const { response, status } = req.body;
+
+    const responded_by = req.session?.user?.id;
+
+    const message = await getContactMessageById(messageId);
+
+    if (!message) {
+      return res.status(404).render('errors/404', {
+        title: 'Message Not Found'
+      });
+    }
+
+    if (!response || !response.trim()) {
+      return res.render('contact/detail', {
+        title: 'Message Detail',
+        message,
+        errors: [{ msg: 'Response cannot be empty.' }]
+      });
+    }
+
+    await respondToContactMessage({
+      message_id: messageId,
+      response: response.trim(),
+      responded_by,
+      status: status || 'closed'
+    });
+
+    res.redirect('/admin/contact');
+  } catch (error) {
+    console.error('respondToMessageAction error:', error);
+    next(error);
+  }
+};
+
 export {
   adminDashboardPage,
   addVehiclePage,
   addVehicleAction,
   manageVehiclesPage,
-  deleteVehicleAction
+  deleteVehicleAction,
+  manageContactMessagesPage,
+  contactMessageDetailPage,
+  respondToMessageAction
 };
