@@ -17,6 +17,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
@@ -26,7 +27,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: NODE_ENV === 'production',
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24
     }
@@ -34,6 +35,7 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(addLocalVariables);

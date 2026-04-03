@@ -1,15 +1,16 @@
 import 'dotenv/config';
-import pg from "pg";
+import pg from 'pg';
 
 const { Pool } = pg;
 
 const pool = new Pool({
   connectionString: process.env.DB_URL,
-  ssl: { rejectUnauthorized: false },
-  max: 1, // leave 1 slot for pgAdmin login
-  idleTimeoutMillis: 5000,
-  connectionTimeoutMillis: 10000
-  
+  ssl: process.env.NODE_ENV === 'production'
+    ? { rejectUnauthorized: false }
+    : false,
+  max: 2,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
 });
 
 export default pool;
