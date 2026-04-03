@@ -1,4 +1,4 @@
-# Used Car Dealership Web Application
+# Used Car Dealership Web Application - Landon Stucki
 
 ## Project Description
 
@@ -10,10 +10,7 @@ The system includes role-based access control where employees and owners can man
 
 ## Live Deployment
 
-[👉 Add your Render URL here]
-
-Example:
-https://your-app-name.onrender.com
+https://used-car-dealership-landon.onrender.com
 
 ---
 
@@ -29,8 +26,6 @@ https://your-app-name.onrender.com
 ---
 
 ## Database Schema (ERD)
-
- Replace this with screenshot
 
 ![ERD](./docs/erd.png)
 
@@ -54,7 +49,6 @@ https://your-app-name.onrender.com
 ### Standard User
 
 * Browse vehicles
-* Leave reviews
 * Submit service requests
 * Contact dealership
 * View their own messages and requests
@@ -69,11 +63,6 @@ https://your-app-name.onrender.com
 * View individual vehicle details
 * Admin can add, edit, and delete vehicles
 
-### Reviews
-
-* Users can leave reviews on vehicles
-* Users can edit/delete their own reviews
-* Admin can moderate reviews
 
 ### Service Requests (Workflow System)
 
@@ -96,8 +85,8 @@ https://your-app-name.onrender.com
 
 * Central control panel for:
 
-  * Vehicles
-  * Users
+  * Adding/Removing Vehicles
+  * Users (Owner Level)
   * Service requests
   * Contact messages
 
@@ -110,71 +99,28 @@ Use the following accounts to test functionality:
 **Owner**
 
 * Email: [owner@test.com](mailto:owner@test.com)
-* Password: P@$$w0rd!
 
 **Employee**
 
 * Email: [employee@test.com](mailto:employee@test.com)
-* Password: P@$$w0rd!
 
 **User**
 
 * Email: [user@test.com](mailto:user@test.com)
-* Password: P@$$w0rd!
 
 ---
 
 ## Screenshots
-
+![ERD](./docs/erd.png)
 ### Home Page
-
-![Home Page](./docs/home.png)
-
-### Vehicle Detail Page
-
-![Vehicle Detail](./docs/vehicle.png)
-
-### Admin Dashboard
-
-![Admin Dashboard](./docs/admin.png)
-
-### Contact Messages (Admin View)
-
-![Contact Messages](./docs/contact.png)
-
-### Service Requests
-
-![Service Requests](./docs/service.png)
-
----
+![Home Page](./docs/homepage.png)
 
 ## Known Limitations
 
 * UI styling could be improved for mobile responsiveness
+* Minimal CSS used.
 * No email notifications for contact responses
 * Some validation could be expanded further
-
----
-
-## Setup Instructions (Local Development)
-
-1. Clone the repository
-2. Install dependencies:
-
-   ```
-   npm install
-   ```
-3. Create a `.env` file with:
-
-   ```
-   DB_URL=your_postgres_connection
-   SESSION_SECRET=your_secret
-   ```
-4. Run the server:
-
-   ```
-   npm run dev
-   ```
 
 ---
 

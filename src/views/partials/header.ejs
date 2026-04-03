@@ -1,39 +1,53 @@
 <header>
-<% if (typeof NODE_ENV !== 'undefined' && NODE_ENV.includes('dev')) { %>
+  <% if (typeof NODE_ENV !== 'undefined' && NODE_ENV.includes('dev')) { %>
     <script>
-        const host = window.location.hostname;
-        const currentPort = window.location.port;
-        const wsPort = currentPort ? (parseInt(currentPort) + 1) : 3001;
-        const ws = new WebSocket(`ws://${host}:${wsPort}`);
+      const host = window.location.hostname;
+      const currentPort = window.location.port;
+      const wsPort = currentPort ? (parseInt(currentPort) + 1) : 3001;
+      const ws = new WebSocket(`ws://${host}:${wsPort}`);
 
-        ws.onclose = () => {
-            setTimeout(() => location.reload(), 2000);
-        };
+      ws.onclose = () => {
+        setTimeout(() => location.reload(), 2000);
+      };
     </script>
-<% } %>
+  <% } %>
 
   <nav>
-    <div class='menu-button'>
+    <div class="menu-button">
       <ul>
         <li><a>Menu</a></li>
       </ul>
     </div>
 
-    <div class='menu closed'>
+    <div class="menu closed">
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/vehicles">Vehicles</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-        <li><a href="/account/dashboard">Account</a></li>
-        <li><a href="/admin/dashboard">Admin</a></li>
-        <li>
-          <form method="POST" action="/logout" class="logout-form">
-            <button type="submit">Logout</button>
-          </form>
-        </li>
+
+        <% if (!currentUser) { %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        <% } %>
+
+        <% if (currentUser) { %>
+          <li><a href="/account/dashboard">Account</a></li>
+          <li><a href="/account/messages">My Messages</a></li>
+        <% } %>
+
+        <% if (currentUser && (currentUser.role === 'employee' || currentUser.role === 'owner')) { %>
+          <li><a href="/admin/dashboard">Admin</a></li>
+          <li><a href="/admin/contact">Contact Messages</a></li>
+        <% } %>
+
+        <% if (currentUser) { %>
+          <li>
+            <form method="POST" action="/logout" class="logout-form">
+              <button type="submit">Logout</button>
+            </form>
+          </li>
+        <% } %>
       </ul>
     </div>
   </nav>
