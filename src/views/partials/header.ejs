@@ -1,3 +1,5 @@
+<% const user = currentUser || null; %>
+
 <header>
   <% if (typeof NODE_ENV !== 'undefined' && NODE_ENV.includes('dev')) { %>
     <script>
@@ -25,22 +27,22 @@
         <li><a href="/vehicles">Vehicles</a></li>
         <li><a href="/contact">Contact</a></li>
 
-        <% if (!currentUser) { %>
+        <% if (!user) { %>
           <li><a href="/login">Login</a></li>
           <li><a href="/register">Register</a></li>
         <% } %>
 
-        <% if (currentUser) { %>
+        <% if (user) { %>
           <li><a href="/account/dashboard">Account</a></li>
           <li><a href="/account/messages">My Messages</a></li>
         <% } %>
 
-        <% if (currentUser && (currentUser.role === 'employee' || currentUser.role === 'owner')) { %>
+        <% if (user && (user.role === 'employee' || user.role === 'owner')) { %>
           <li><a href="/admin/dashboard">Admin</a></li>
           <li><a href="/admin/contact">Contact Messages</a></li>
         <% } %>
 
-        <% if (currentUser) { %>
+        <% if (user) { %>
           <li>
             <form method="POST" action="/logout" class="logout-form">
               <button type="submit">Logout</button>
